@@ -1,0 +1,11 @@
+.tools/
+.gradle/
+**/build/
+local.properties
+*.jks
+*.keystore
+*.log
+.idea/
+*.iml
+**/__pycache__/
+dist/pc-check/
