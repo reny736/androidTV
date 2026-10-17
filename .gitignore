@@ -9,3 +9,12 @@ local.properties
 *.iml
 **/__pycache__/
 dist/pc-check/
+
+# Local development notes and desktop emulator helpers
+/PRODUCT.md
+/DESIGN.md
+/run-on-pc.ps1
+/setup-emulator.ps1
+/电脑试运行.cmd
+/tests/pc-smoke.py
+/dist/测试说明.md

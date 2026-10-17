@@ -2,7 +2,7 @@
 
 用于小米平板 7 / Android 16 的极简 DLNA MediaRenderer 测试版。原生 Android 界面，Media3 ExoPlayer 播放 HTTP(S)、HLS、DASH 媒体，SSDP 设备发现，SOAP 控制和 GENA 状态通知。无账号、广告和分析服务。
 
-[下载测试版 APK](https://github.com/reny736/androidTV/raw/refs/heads/main/dist/TabletCast-0.1.0.apk) · [测试说明](dist/测试说明.md) · [SHA-256 校验](dist/TabletCast-0.1.0.apk.sha256)
+[下载测试版 APK](https://github.com/reny736/androidTV/raw/refs/heads/main/dist/TabletCast-0.1.0.apk) · [安装说明](#安装与测试) · [SHA-256 校验](dist/TabletCast-0.1.0.apk.sha256)
 
 ![等待投屏界面](docs/images/waiting.png)
 
@@ -12,8 +12,8 @@
 - `DlnaServer.java`：SSDP 发现、设备描述、SOAP 播放控制和 GENA 状态通知。
 - `ServiceDescription.java`：生成三个 UPnP 服务的能力描述。
 - `app/src/main/java/fi/iki/elonen/NanoHTTPD.java`：内置 HTTP 服务，补齐 DLNA 订阅方法支持。
-- `tests/pc-smoke.py`：使用自制视频执行模拟器基础检查。
-- `dist/`：已测试的 APK、校验文件和安装说明。
+- `app/src/test/`：UPnP 服务描述的单元测试。
+- `dist/`：已测试的 APK 和校验文件。
 
 实现语言为 Java，最低 Android 8.0，目标 SDK 35。构建工具、SDK、模拟器镜像、签名密钥和运行日志均不纳入仓库。
 
@@ -38,13 +38,7 @@
 - 调试签名 APK 仅供本地安装测试；正式发布前需独立发布签名、完整第三方许可证及实机兼容验证。
 - 请求头鉴权透传和高级 DLNA 功能尚未实现。
 
-## 电脑试运行
-
-首次执行 `setup-emulator.ps1` 下载 Android 16 平板镜像，然后双击 `电脑试运行.cmd`。启动器会打开模拟器、等待系统启动、安装当前 APK 并打开应用。缺少虚拟化加速驱动时自动尝试软件模式，启动和操作可能较慢。
-
-模拟器使用接近平板比例的 1600×1068 分辨率，适合检查界面与基础交互。模拟器的 NAT 网络不能代表真实平板的局域网投屏发现和高码率解码性能。
-
-`tests/pc-smoke.py` 使用项目内 PyAV 生成本地测试视频，通过 ADB 端口转发检查设备描述、状态通知、播放、暂停、跳转、音量、停止与错误页面，截图输出到 `dist/pc-check`。需要先启动模拟器并安装 APK，且在项目目录执行 `python -m pip install --target .tools/python av==19.0.1 Pillow` 安装检查脚本的依赖。脚本面向 Windows 环境。
+## 验证情况
 
 已在 Android 16 模拟器中通过横竖屏、设备改名对话框、基础视频播放、播放控制、状态订阅通知和错误页面检查；构建、协议描述单元测试、Android Lint 和 APK 签名验证通过。真实手机的 SSDP 发现、咪咕与哔哩哔哩平台兼容性及高码率性能仍需真机验证。
 
