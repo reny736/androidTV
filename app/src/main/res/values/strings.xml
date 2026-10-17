@@ -1,7 +1,4 @@
 <resources>
-    <string name="device_name">%1$s  ›</string>
     <string name="network">局域网 · %1$s</string>
     <string name="no_network">未连接 Wi-Fi 或有线局域网</string>
-    <string name="connect_network">连接网络后即可等待投屏</string>
-    <string name="ready">打开手机视频 App，选择此设备</string>
 </resources>

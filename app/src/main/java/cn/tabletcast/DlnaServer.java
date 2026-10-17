@@ -87,9 +87,9 @@ final class DlnaServer extends NanoHTTPD {
             case "GetCurrentTransportActions":return tags("Actions",app.currentUri.isEmpty()?"":"Play,Pause,Stop,Seek");
             case "SetPlayMode":if(!arg(e,"NewPlayMode").equals("NORMAL"))throw new IllegalArgumentException();break;
             case "GetVolume":return tags("CurrentVolume",String.valueOf(volume()));
-            case "SetVolume":int v=Integer.parseInt(arg(e,"DesiredVolume"));app.player.setVolume(Math.max(0,Math.min(100,v))/100f);break;
-            case "GetMute":return tags("CurrentMute",app.player.getVolume()==0?"1":"0");
-            case "SetMute":String mute=arg(e,"DesiredMute");if(mute.equals("1")||mute.equals("true")){if(app.player.getVolume()>0)previousVolume=app.player.getVolume();app.player.setVolume(0);}else app.player.setVolume(previousVolume);break;
+            case "SetVolume":int v=Integer.parseInt(arg(e,"DesiredVolume"));app.setMediaVolume(v);break;
+            case "GetMute":return tags("CurrentMute",volume()==0?"1":"0");
+            case "SetMute":String mute=arg(e,"DesiredMute");if(mute.equals("1")||mute.equals("true")){if(volume()>0)previousVolume=volume();app.setMediaVolume(0);}else app.setMediaVolume(previousVolume);break;
             case "ListPresets":return tags("CurrentPresetNameList","FactoryDefaults");
             case "GetProtocolInfo":return tags("Source","","Sink",PROTOCOL);
             case "GetCurrentConnectionIDs":return tags("ConnectionIDs","0");
@@ -97,8 +97,8 @@ final class DlnaServer extends NanoHTTPD {
             default:throw new UnsupportedOperationException();
         }changed();return "";
     }
-    float previousVolume=1f;
-    int volume(){return Math.round(app.player.getVolume()*100);}
+    int previousVolume=100;
+    int volume(){return app.mediaVolume();}
     Response subscription(IHTTPSession s){String sid=s.getHeaders().get("sid");if(s.getMethod().name().equals("UNSUBSCRIBE")){subscriptions.remove(sid==null?"":sid);return newFixedLengthResponse("");}
         if(!s.getMethod().name().equals("SUBSCRIBE"))return newFixedLengthResponse(Response.Status.METHOD_NOT_ALLOWED,"text/plain","");
         Subscription sub=sid==null?null:subscriptions.get(sid);
